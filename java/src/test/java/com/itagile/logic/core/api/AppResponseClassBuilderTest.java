@@ -136,8 +136,8 @@ class AppResponseClassBuilderTest {
     }
 
     private static class AppResponseDataMockConstructorError extends AppResponseData {
-        public AppResponseDataMockConstructorError() {
-            throw new UnsupportedOperationException();
+        public AppResponseDataMockConstructorError() throws IllegalAccessException {
+            throw new IllegalAccessException();
         }
     }
 
