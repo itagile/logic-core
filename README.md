@@ -12,22 +12,22 @@ The example below shows how to use AppResponseBuilder to construct an AppRespons
 The response object can have useful messages for showing to the user.
 
 ```java
-    public AppResponse save(ExampleDTO dto) {
-        AppResponseBuilder resp = new AppResponseBuilder();
-        ...
-        if (some validation) {
-            resp.addError("{0} is not valid", dto.getValue());
-        }
-        if (some validation) {
-            resp.addWarn("Warning message: {0}", dto.getValue());
-        }
-        if (res.isOk()) {
-            // save logic
-            resp.addInfo("Optional success message");
-        }
-        ...
-        return resp.build();
+public AppResponse save(ExampleDTO dto) {
+    AppResponseBuilder resp = new AppResponseBuilder();
+    ...
+    if (some validation) {
+        resp.addError("{0} is not valid", dto.getValue());
     }
+    if (some validation) {
+        resp.addWarn("Warning message: {0}", dto.getValue());
+    }
+    if (res.isOk()) {
+        // save logic
+        resp.addInfo("Optional success message");
+    }
+    ...
+    return resp.build();
+}
 
 ```
 
@@ -62,28 +62,30 @@ If more properties in response are needed is possible to inherit from AppRespons
 The example below shows a custom response adding an id to the response:
 
 ```java
-    public class MiCustomResponse extends AppResponse {
-        private Long id;
-        ...
+public class MiCustomResponse extends AppResponse {
+    private Long id;
+    ...
+}
+
+...
+
+public AppResponse save(ExampleDTO dto) {
+    AppResponseClassBuilder<MiCustomResponse> resp = AppResponseClassBuilder.of(MiCustomResponse.class);
+    ...
+    if (some validation) {
+        resp.addError("{0} is not valid", dto.getValue());
     }
-    
-    public AppResponse save(ExampleDTO dto) {
-        AppResponseClassBuilder<MiCustomResponse> resp = AppResponseClassBuilder.of(MiCustomResponse.class);
-        ...
-        if (some validation) {
-            resp.addError("{0} is not valid", dto.getValue());
-        }
-        if (some validation) {
-            resp.addWarn("Warning message: {0}", dto.getValue());
-        }
-        if (res.isOk()) {
-            // save logic
-            resp.getData().setId(id);
-            resp.addInfo("Optional success message");
-        }
-        ...
-        return resp.build();
+    if (some validation) {
+        resp.addWarn("Warning message: {0}", dto.getValue());
     }
+    if (res.isOk()) {
+        // save logic
+        resp.getData().setId(id);
+        resp.addInfo("Optional success message");
+    }
+    ...
+    return resp.build();
+}
 
 ```
 
