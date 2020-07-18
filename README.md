@@ -103,6 +103,7 @@ MyCustomResponse::new is the recommended way to initialize the custom response b
     var resp = ResponseBuilder.of(MyCustomResponse.class);
 ```
 
+Finally, through the method withMessageProvider, it is possible to customize ServiceMessage properties, transforming message from code, and resolving and applying current locale.
 
 # Development
 ## Maven

@@ -84,6 +84,17 @@ public class AppResponseDataBuilder<T extends AppResponse> extends AbstractAppRe
     }
 
     /**
+     * Sets the service for custom ServiceMessage instantiation.
+     *
+     * @param messageProvider the service for custom ServiceMessage instantiation
+     * @return this object
+     */
+    public AppResponseDataBuilder<T> withMessageProvider(final MessageProvider messageProvider) {
+        setMessageProvider(messageProvider);
+        return this;
+    }
+
+    /**
      * Builds an instance and assigns ok value and messages. Subsequent calls to this method will return the same
      * instance. The aforementioned is to ease setting other properties of the response.
      *

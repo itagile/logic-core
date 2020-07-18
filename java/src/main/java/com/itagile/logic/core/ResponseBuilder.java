@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
+ * Contract for AppResponse builder implementations.
+ *
  * @author Javier Alcala
  * @since 1.0.0
  */

@@ -16,21 +16,25 @@
 
 package com.itagile.logic.core;
 
-import java.util.Locale;
+import com.itagile.logic.api.ServiceMessage;
+import com.itagile.logic.api.ServiceMessageType;
 
 /**
+ * Contract for customizing ServiceMessage properties, transforming message from code, and resolving and applying
+ * current locale.
+ *
  * @author Javier Alcala
  * @since 1.0.0
  */
 public interface MessageProvider {
-
     /**
-     * Resolves the message or returns the code if doesn't exists.
+     * Creates a new instance of ServiceMessage. This type can be used to customize ServiceMessage properties like
+     * translating message from code to a the real text and resolving and applying current locale.
      *
-     * @param message the message or code to look up.
-     * @param locale  the locale in which to do the lookup
-     * @return the resolved message (never {@code null})
+     * @param type    the type of this message
+     * @param message the error message to append
+     * @param args    arguments referenced by the format specifiers in the format string
+     * @return the new ServiceMessage instance
      */
-    String getMessage(String message, Locale locale);
-
+    ServiceMessage getMessage(ServiceMessageType type, String message, Object... args);
 }

@@ -42,6 +42,11 @@ public class AbstractAppResponseBuilder implements ResponseBuilder {
     private final List<ServiceMessage> messages = new ArrayList<>();
 
     /**
+     * The service for custom ServiceMessage instantiation.
+     */
+    private MessageProvider messageProvider;
+
+    /**
      * Determines if this response was successful.
      *
      * @return true if no errors where found.
@@ -61,7 +66,16 @@ public class AbstractAppResponseBuilder implements ResponseBuilder {
     }
 
     /**
-     * Appends an error message and changes the ok state to false.
+     * Sets the service for custom ServiceMessage instantiation.
+     *
+     * @param messageProvider the service for custom ServiceMessage instantiation
+     */
+    protected void setMessageProvider(final MessageProvider messageProvider) {
+        this.messageProvider = messageProvider;
+    }
+
+    /**
+     * Appends a message and changes the ok state to false if the type is ERROR.
      *
      * @param type    the type of this message
      * @param message the error message to append
@@ -69,12 +83,18 @@ public class AbstractAppResponseBuilder implements ResponseBuilder {
      */
     private void addMessage(final ServiceMessageType type, final String message,
                             final Object... args) {
-        if (args.length == 0) {
-            messages.add(ServiceMessage.of(type, message));
+        final ServiceMessage dto;
+        if (messageProvider == null) {
+            if (args.length == 0) {
+                dto = ServiceMessage.of(type, message);
+            } else {
+                dto = ServiceMessage.of(type, TextUtils.format(message, args));
+            }
         } else {
-            messages.add(ServiceMessage.of(type, TextUtils.format(message, args)));
+            dto = messageProvider.getMessage(type, message, args);
         }
-        if (type == ServiceMessageType.ERROR) {
+        messages.add(dto);
+        if (dto.getType() == ServiceMessageType.ERROR) {
             ok = false;
         }
     }

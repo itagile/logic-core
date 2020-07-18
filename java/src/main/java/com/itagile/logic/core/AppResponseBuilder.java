@@ -34,4 +34,15 @@ public class AppResponseBuilder extends AbstractAppResponseBuilder {
         return setProperties(new AppResponse());
     }
 
+    /**
+     * Sets the service for custom ServiceMessage instantiation.
+     *
+     * @param messageProvider the service for custom ServiceMessage instantiation
+     * @return this object
+     */
+    public AppResponseBuilder withMessageProvider(final MessageProvider messageProvider) {
+        setMessageProvider(messageProvider);
+        return this;
+    }
+
 }

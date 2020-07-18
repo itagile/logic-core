@@ -19,8 +19,6 @@ package com.itagile.logic.core;
 import com.itagile.logic.api.AppResponse;
 import com.itagile.logic.api.ServiceMessage;
 import com.itagile.logic.api.ServiceMessageType;
-import com.itagile.logic.core.AppResponseDataBuilder;
-import com.itagile.logic.core.TestUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -165,6 +163,18 @@ class AppResponseDataBuilderTest {
         AppResponse bean2 = bean.build();
         testData(bean2);
         assertSame(bean1, bean2);
+    }
+
+    @Test
+    void withMessageProvider() {
+        final String expected = "message";
+        AppResponseDataBuilder<AppResponse> bean =
+                getBean().withMessageProvider((type, message, args) -> ServiceMessage.of(type, expected));
+        bean.addError("other");
+        List<ServiceMessage> messages = bean.getMessages();
+        ServiceMessage message = messages.get(0);
+        assertEquals(expected, message.getMessage());
+        assertEquals(ServiceMessageType.ERROR, message.getType());
     }
 
     @Test
