@@ -21,7 +21,7 @@ public AppResponse save(ExampleDTO dto) {
     if (some validation) {
         resp.addWarn("Warning message: {0}", dto.getValue());
     }
-    if (res.isOk()) {
+    if (resp.isOk()) {
         // save logic
         resp.addInfo("Optional success message");
     }
@@ -62,7 +62,7 @@ If more properties in response are needed is possible to inherit from AppRespons
 The example below shows a custom response adding an id to the response:
 
 ```java
-public class MiCustomResponse extends AppResponse {
+public class MyCustomResponse extends AppResponse {
     private Long id;
     ...
 }
@@ -70,7 +70,8 @@ public class MiCustomResponse extends AppResponse {
 ...
 
 public AppResponse save(ExampleDTO dto) {
-    AppResponseClassBuilder<MiCustomResponse> resp = AppResponseClassBuilder.of(MiCustomResponse.class);
+    AppResponseClassBuilder<MyCustomResponse> resp =
+        AppResponseClassBuilder.of(MyCustomResponse.class);
     ...
     if (some validation) {
         resp.addError("{0} is not valid", dto.getValue());
@@ -78,7 +79,7 @@ public AppResponse save(ExampleDTO dto) {
     if (some validation) {
         resp.addWarn("Warning message: {0}", dto.getValue());
     }
-    if (res.isOk()) {
+    if (resp.isOk()) {
         // save logic
         resp.getData().setId(id);
         resp.addInfo("Optional success message");
