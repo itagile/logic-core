@@ -12,20 +12,22 @@ The example below shows how to use AppResponseBuilder to construct an AppRespons
 The response object can have useful messages for showing to the user.
 
 ```java
-public AppResponse save(ExampleDTO dto) {
-    AppResponseBuilder resp = new AppResponseBuilder();
-    ...
+private boolean isValid(ExampleDTO dto, ResponseBuilder resp) {
     if (some validation) {
         resp.addError("{0} is not valid", dto.getValue());
     }
     if (some validation) {
         resp.addWarn("Warning message: {0}", dto.getValue());
     }
-    if (resp.isOk()) {
+    return resp.isOk();
+}
+
+public AppResponse save(ExampleDTO dto) {
+    AppResponseBuilder resp = new AppResponseBuilder();
+    if (isValid(dto, resp)) {
         // save logic
         resp.addInfo("Optional success message");
     }
-    ...
     return resp.build();
 }
 
@@ -69,17 +71,21 @@ public class MyCustomResponse extends AppResponse {
 
 ...
 
-public AppResponse save(ExampleDTO dto) {
-    AppResponseClassBuilder<MyCustomResponse> resp =
-        AppResponseClassBuilder.of(MyCustomResponse.class);
-    ...
+private boolean isValid(ExampleDTO dto, ResponseBuilder resp) {
     if (some validation) {
         resp.addError("{0} is not valid", dto.getValue());
     }
     if (some validation) {
         resp.addWarn("Warning message: {0}", dto.getValue());
     }
-    if (resp.isOk()) {
+    return resp.isOk();
+}
+
+
+public AppResponse save(ExampleDTO dto) {
+    AppResponseClassBuilder<MyCustomResponse> resp =
+        AppResponseClassBuilder.of(MyCustomResponse.class);
+    if (isValid(dto, resp)) {
         // save logic
         resp.getData().setId(id);
         resp.addInfo("Optional success message");

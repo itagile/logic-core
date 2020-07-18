@@ -28,7 +28,7 @@ import java.util.List;
  * @author Javier Alcala
  * @since 1.0.0
  */
-public class AbstractAppResponseBuilder {
+public class AbstractAppResponseBuilder implements ResponseBuilder {
     /**
      * Determines if this response was successful.
      */
@@ -66,7 +66,7 @@ public class AbstractAppResponseBuilder {
      * @param args    arguments referenced by the format specifiers in the format string
      */
     private void addMessage(final ServiceMessageType type, final String message,
-                                                  final Object... args) {
+                            final Object... args) {
         if (args.length == 0) {
             messages.add(ServiceMessage.of(type, message));
         } else {
@@ -77,81 +77,43 @@ public class AbstractAppResponseBuilder {
         }
     }
 
-    /**
-     * Appends an error message and changes the ok state to false.
-     *
-     * @param message the error message to append
-     */
-    public void addError(final String message) {
+    @Override
+    public final void addError(final String message) {
         addMessage(ServiceMessageType.ERROR, message);
     }
 
-    /**
-     * Appends an error message and changes the ok state to false.
-     * The message is formatted using {@link String#format(String, Object...) String.format}.
-     *
-     * @param message the error message to append
-     * @param args    arguments referenced by the format specifiers in the format string
-     */
-    public void addError(final String message, final Object... args) {
+    @Override
+    public final void addError(final String message, final Object... args) {
         addMessage(ServiceMessageType.ERROR, message, args);
     }
 
-    /**
-     * Appends a warning message.
-     *
-     * @param message the error message to append
-     */
-    public void addWarning(final String message) {
+    @Override
+    public final void addWarning(final String message) {
         addMessage(ServiceMessageType.WARN, message);
     }
 
-    /**
-     * Appends a warning message.
-     * The message is formatted using {@link String#format(String, Object...) String.format}.
-     *
-     * @param message the error message to append
-     * @param args    arguments referenced by the format specifiers in the format string
-     */
-    public void addWarning(final String message, final Object... args) {
+    @Override
+    public final void addWarning(final String message, final Object... args) {
         addMessage(ServiceMessageType.WARN, message, args);
     }
 
-    /**
-     * Appends an informative message.
-     *
-     * @param message the error message to append
-     */
-    public void addInfo(final String message) {
+    @Override
+    public final void addInfo(final String message) {
         addMessage(ServiceMessageType.INFO, message);
     }
 
-    /**
-     * Appends an informative message.
-     * The message is formatted using {@link String#format(String, Object...) String.format}.
-     *
-     * @param message the error message to append
-     * @param args    arguments referenced by the format specifiers in the format string
-     */
-    public void addInfo(final String message, final Object... args) {
+    @Override
+    public final void addInfo(final String message, final Object... args) {
         addMessage(ServiceMessageType.INFO, message, args);
     }
 
-    /**
-     * Appends all messages from response object.
-     *
-     * @param response the service response to append
-     */
-    public void addAll(final AppResponse response) {
+    @Override
+    public final void addAll(final AppResponse response) {
         addAll(response.getMessages());
     }
 
-    /**
-     * Appends all messages from list.
-     *
-     * @param messages the list of messages
-     */
-    public void addAll(final List<ServiceMessage> messages) {
+    @Override
+    public final void addAll(final List<ServiceMessage> messages) {
         messages.forEach(message -> addMessage(message.getType(), message.getMessage()));
     }
 
