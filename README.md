@@ -11,7 +11,7 @@ The example below shows how to use AppResponseBuilder to construct an AppRespons
 
 The response object can have useful messages for showing to the user.
 
-```
+```java
     public AppResponse save(ExampleDTO dto) {
         AppResponseBuilder resp = new AppResponseBuilder();
         ...
@@ -33,7 +33,7 @@ The response object can have useful messages for showing to the user.
 
 This example generates an AppResponse like this when errors are present:
 
-```
+```json
 {
     "ok": false,
     "messages": [
@@ -46,7 +46,7 @@ This example generates an AppResponse like this when errors are present:
 or an AppResponse like this when no errors were found:
 
 
-```
+```json
 {
     "ok": true,
     "messages": [
@@ -61,7 +61,7 @@ If more properties in response are needed is possible to inherit from AppRespons
 
 The example below shows a custom response adding an id to the response:
 
-```
+```java
     public class MiCustomResponse extends AppResponse {
         private Long id;
         ...
