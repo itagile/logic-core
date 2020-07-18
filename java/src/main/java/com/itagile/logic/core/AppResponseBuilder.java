@@ -13,10 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.itagile.logic.core;
+
+import com.itagile.logic.api.AppResponse;
+
 /**
- * Provides basic classes for backend's API.
+ * A builder for creating an AppResponse object.
  *
  * @author Javier Alcala
  * @since 1.0.0
  */
-package com.itagile.logic.core.api;
+public class AppResponseBuilder extends AbstractAppResponseBuilder {
+    /**
+     * Builds an instance and assigns final properties values.
+     *
+     * @return the new instance
+     */
+    public AppResponse build() {
+        return setProperties(new AppResponse());
+    }
+
+}

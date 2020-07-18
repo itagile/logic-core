@@ -14,15 +14,51 @@
  * limitations under the License.
  */
 
-package com.itagile.logic.core.api;
+package com.itagile.logic.core;
+
+import com.itagile.logic.api.AppResponse;
+import com.itagile.logic.api.ServiceMessage;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Javier Alcala
  * @since 1.0.0
  */
 public interface ResponseBuilder {
+
+    /**
+     * Default static factory method.
+     *
+     * @return the created object
+     */
+    static AppResponseBuilder of() {
+        return new AppResponseBuilder();
+    }
+
+    /**
+     * Static factory method with specific constructor to use.
+     *
+     * @param supplier the specific constructor to use
+     * @param <T>      the AppResponse implementation class
+     * @return the created object
+     */
+    static <T extends AppResponse> AppResponseDataBuilder<T> of(final Supplier<T> supplier) {
+        return new AppResponseDataBuilder<>(supplier);
+    }
+
+    /**
+     * Static factory method with class type.
+     *
+     * @param clazz the class type
+     * @param <T>   the AppResponse implementation class
+     * @return the created object
+     */
+    static <T extends AppResponse> AppResponseDataBuilder<T> of(final Class<T> clazz) {
+        return new AppResponseDataBuilder<>(clazz);
+    }
+
     /**
      * Determines if this response was successful.
      *

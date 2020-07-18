@@ -28,7 +28,7 @@ public interface MessageProvider {
      * Resolves the message or returns the code if doesn't exists.
      *
      * @param message the message or code to look up.
-     * @param locale the locale in which to do the lookup
+     * @param locale  the locale in which to do the lookup
      * @return the resolved message (never {@code null})
      */
     String getMessage(String message, Locale locale);

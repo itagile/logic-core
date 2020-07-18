@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package com.itagile.logic.core.api;
+package com.itagile.logic.core;
 
-import com.itagile.logic.core.TextUtils;
+import com.itagile.logic.api.AppResponse;
+import com.itagile.logic.api.ServiceMessage;
+import com.itagile.logic.api.ServiceMessageType;
 
 import java.util.ArrayList;
 import java.util.Collections;

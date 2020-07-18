@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.itagile.logic.core.api;
+package com.itagile.logic.api;
 
 import java.util.List;
 

@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package com.itagile.logic.core.api;
+package com.itagile.logic.core;
 
+import com.itagile.logic.api.AppResponse;
+import com.itagile.logic.api.ServiceMessage;
+import com.itagile.logic.api.ServiceMessageType;
+import com.itagile.logic.core.AppResponseDataBuilder;
 import com.itagile.logic.core.TestUtils;
 import org.junit.jupiter.api.Test;
 
@@ -30,13 +34,15 @@ import static org.hamcrest.Matchers.empty;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * AppResponseDataBuilder tests.
+ *
  * @author Javier Alcala
  * @since 1.0.0
  */
-class AppResponseClassBuilderTest {
+class AppResponseDataBuilderTest {
 
-    private AppResponseClassBuilder<AppResponse> getBean() {
-        return AppResponseClassBuilder.of(AppResponse::new);
+    private AppResponseDataBuilder<AppResponse> getBean() {
+        return AppResponseDataBuilder.of(AppResponse::new);
     }
 
     @Test
@@ -50,7 +56,7 @@ class AppResponseClassBuilderTest {
         assertThrows(UnsupportedOperationException.class, () -> getBean().getMessages().add(null));
     }
 
-    private void testAdd(AppResponseClassBuilder<AppResponse> bean, Consumer<String> method, boolean ok,
+    private void testAdd(AppResponseDataBuilder<?> bean, Consumer<String> method, boolean ok,
                          ServiceMessageType type) {
         String expected = "message";
         method.accept(expected);
@@ -62,7 +68,7 @@ class AppResponseClassBuilderTest {
         assertEquals(type, message.getType());
     }
 
-    private void testAddWithArgs(AppResponseClassBuilder<AppResponse> bean, BiConsumer<String, Object[]> method,
+    private void testAddWithArgs(AppResponseDataBuilder<?> bean, BiConsumer<String, Object[]> method,
                                  boolean ok, ServiceMessageType type) {
         method.accept("message {0} {1}", new Object[]{"a", 1});
         assertEquals(ok, bean.isOk());
@@ -75,47 +81,47 @@ class AppResponseClassBuilderTest {
 
     @Test
     void addError() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
+        AppResponseDataBuilder<AppResponse> bean = getBean();
         testAdd(bean, bean::addError, false, ServiceMessageType.ERROR);
     }
 
     @Test
     void testAddError() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
+        AppResponseDataBuilder<AppResponse> bean = getBean();
         testAddWithArgs(bean, bean::addError, false, ServiceMessageType.ERROR);
     }
 
     @Test
     void addWarning() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
+        AppResponseDataBuilder<AppResponse> bean = getBean();
         testAdd(bean, bean::addWarning, true, ServiceMessageType.WARN);
     }
 
     @Test
     void testAddWarning() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
+        AppResponseDataBuilder<AppResponse> bean = getBean();
         testAddWithArgs(bean, bean::addWarning, true, ServiceMessageType.WARN);
     }
 
     @Test
     void addInfo() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
+        AppResponseDataBuilder<AppResponse> bean = getBean();
         testAdd(bean, bean::addInfo, true, ServiceMessageType.INFO);
     }
 
     @Test
     void testAddInfo() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
+        AppResponseDataBuilder<AppResponse> bean = getBean();
         testAddWithArgs(bean, bean::addInfo, true, ServiceMessageType.INFO);
     }
 
     @Test
     void addAll() {
         String expected = "message";
-        AppResponseClassBuilder<AppResponse> bean1 = getBean();
+        AppResponseDataBuilder<AppResponse> bean1 = getBean();
         bean1.addError(expected);
         AppResponse dto1 = bean1.build();
-        AppResponseClassBuilder<AppResponse> bean2 = getBean();
+        AppResponseDataBuilder<AppResponse> bean2 = getBean();
         bean2.addAll(dto1);
         AppResponse dto2 = bean2.build();
         assertEquals(dto1.isOk(), dto2.isOk());
@@ -133,9 +139,9 @@ class AppResponseClassBuilderTest {
     }
 
     @Test
-    void getDataWithClass() {
-        AppResponseClassBuilder<AppResponse> bean = AppResponseClassBuilder.of(AppResponse.class);
-        testData(bean.getData());
+    void buildWithClass() {
+        AppResponseDataBuilder<AppResponse> bean = AppResponseDataBuilder.of(AppResponse.class);
+        testData(bean.build());
     }
 
     private static class AppResponseMockConstructorError extends AppResponse {
@@ -145,28 +151,25 @@ class AppResponseClassBuilderTest {
     }
 
     @Test
-    void getDataWithClassError() {
-        AppResponseClassBuilder<AppResponseMockConstructorError> bean =
-                AppResponseClassBuilder.of(AppResponseMockConstructorError.class);
-        assertThrows(IllegalStateException.class, bean::getData);
+    void buildWithClassError() {
+        AppResponseDataBuilder<AppResponseMockConstructorError> bean =
+                AppResponseDataBuilder.of(AppResponseMockConstructorError.class);
+        assertThrows(IllegalStateException.class, bean::build);
     }
 
     @Test
-    void getDataWithSupplier() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
-        testData(bean.getData());
-        testData(bean.getData());
-    }
-
-    @Test
-    void build() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
-        testData(bean.build());
+    void buildWithSupplier() {
+        AppResponseDataBuilder<AppResponse> bean = getBean();
+        AppResponse bean1 = bean.build();
+        testData(bean1);
+        AppResponse bean2 = bean.build();
+        testData(bean2);
+        assertSame(bean1, bean2);
     }
 
     @Test
     void testJsonSerializationOk() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
+        AppResponseDataBuilder<AppResponse> bean = getBean();
         AppResponse expected = bean.build();
         String json = TestUtils.toJson(expected);
         AppResponse actual = TestUtils.fromJson(json, AppResponse.class);
@@ -176,7 +179,7 @@ class AppResponseClassBuilderTest {
 
     @Test
     void testJsonSerializationWithMessages() {
-        AppResponseClassBuilder<AppResponse> bean = getBean();
+        AppResponseDataBuilder<AppResponse> bean = getBean();
         bean.addError("Error 1");
         bean.addWarning("Warning 1");
         bean.addInfo("Info 1");

@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package com.itagile.logic.core.api;
+package com.itagile.logic.core;
 
+import com.itagile.logic.api.AppResponse;
+import com.itagile.logic.api.ServiceMessage;
+import com.itagile.logic.api.ServiceMessageType;
+import com.itagile.logic.core.AppResponseBuilder;
 import com.itagile.logic.core.TestUtils;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +32,8 @@ import static org.hamcrest.Matchers.empty;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * AppResponseBuilder tests.
+ *
  * @author Javier Alcala
  * @since 1.0.0
  */

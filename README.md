@@ -23,7 +23,7 @@ private boolean isValid(ExampleDTO dto, ResponseBuilder resp) {
 }
 
 public AppResponse save(ExampleDTO dto) {
-    AppResponseBuilder resp = new AppResponseBuilder();
+    var resp = new ResponseBuilder.of();
     if (isValid(dto, resp)) {
         // save logic
         resp.addInfo("Optional success message");
@@ -83,17 +83,24 @@ private boolean isValid(ExampleDTO dto, ResponseBuilder resp) {
 
 
 public AppResponse save(ExampleDTO dto) {
-    AppResponseClassBuilder<MyCustomResponse> resp =
-        AppResponseClassBuilder.of(MyCustomResponse.class);
+    var resp = ResponseBuilder.of(MyCustomResponse::new);
     if (isValid(dto, resp)) {
         // save logic
-        resp.getData().setId(id);
+        resp.build().setId(id);
         resp.addInfo("Optional success message");
     }
     ...
     return resp.build();
 }
 
+```
+
+Subsequent calls to build method will return the same instance. The aforementioned is to ease setting other properties of the response.
+
+MyCustomResponse::new is the recommended way to initialize the custom response builder, nevertheless, passing a class is supported too:
+
+```java
+    var resp = ResponseBuilder.of(MyCustomResponse.class);
 ```
 
 

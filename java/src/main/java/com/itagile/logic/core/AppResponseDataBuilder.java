@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.itagile.logic.core.api;
+package com.itagile.logic.core;
+
+import com.itagile.logic.api.AppResponse;
 
 import java.util.function.Supplier;
 
@@ -25,7 +27,7 @@ import java.util.function.Supplier;
  * @author Javier Alcala
  * @since 1.0.0
  */
-public class AppResponseClassBuilder<T extends AppResponse> extends AbstractAppResponseBuilder {
+public class AppResponseDataBuilder<T extends AppResponse> extends AbstractAppResponseBuilder {
     /**
      * Current class type.
      */
@@ -46,7 +48,7 @@ public class AppResponseClassBuilder<T extends AppResponse> extends AbstractAppR
      *
      * @param supplier the specific supplier
      */
-    public AppResponseClassBuilder(final Supplier<T> supplier) {
+    public AppResponseDataBuilder(final Supplier<T> supplier) {
         this.supplier = supplier;
     }
 
@@ -55,38 +57,39 @@ public class AppResponseClassBuilder<T extends AppResponse> extends AbstractAppR
      *
      * @param clazz the class type
      */
-    protected AppResponseClassBuilder(final Class<T> clazz) {
+    protected AppResponseDataBuilder(final Class<T> clazz) {
         this.clazz = clazz;
     }
 
     /**
-     * Static constructor with specific constructor to use.
+     * Static factory method with specific constructor to use.
      *
      * @param supplier the specific constructor to use
      * @param <T>      the AppResponse implementation class
      * @return the created object
      */
-    public static <T extends AppResponse> AppResponseClassBuilder<T> of(final Supplier<T> supplier) {
-        return new AppResponseClassBuilder<>(supplier);
+    public static <T extends AppResponse> AppResponseDataBuilder<T> of(final Supplier<T> supplier) {
+        return new AppResponseDataBuilder<>(supplier);
     }
 
     /**
-     * Static constructor with class type.
+     * Static factory method with class type.
      *
      * @param clazz the class type
      * @param <T>   the AppResponse implementation class
      * @return the created object
      */
-    public static <T extends AppResponse> AppResponseClassBuilder<T> of(final Class<T> clazz) {
-        return new AppResponseClassBuilder<>(clazz);
+    public static <T extends AppResponse> AppResponseDataBuilder<T> of(final Class<T> clazz) {
+        return new AppResponseDataBuilder<>(clazz);
     }
 
     /**
-     * Gets the current mutable instance.
+     * Builds an instance and assigns ok value and messages. Subsequent calls to this method will return the same
+     * instance. The aforementioned is to ease setting other properties of the response.
      *
-     * @return the current mutable instance
+     * @return the new instance
      */
-    public T getData() {
+    public T build() {
         if (data == null) {
             if (supplier == null) {
                 try {
@@ -99,14 +102,5 @@ public class AppResponseClassBuilder<T extends AppResponse> extends AbstractAppR
             }
         }
         return setProperties(data);
-    }
-
-    /**
-     * Builds an instance and assigns final properties values.
-     *
-     * @return the new instance
-     */
-    public T build() {
-        return getData();
     }
 }

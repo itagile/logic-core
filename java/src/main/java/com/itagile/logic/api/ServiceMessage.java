@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.itagile.logic.core.api;
+package com.itagile.logic.api;
 
 /**
  * A DTO representing a single message from the service.
@@ -34,16 +34,34 @@ public class ServiceMessage {
     private String message;
 
     /**
-     * Static constructor using fields.
+     * Code of this message. This value is optional.
+     */
+    private String code;
+
+    /**
+     * Static factory method using fields.
      *
      * @param type    type of this message
      * @param message text of this message
      * @return the created object
      */
     public static ServiceMessage of(final ServiceMessageType type, final String message) {
+        return of(type, message, "");
+    }
+
+    /**
+     * Static factory method using fields.
+     *
+     * @param type    type of this message
+     * @param message text of this message
+     * @param code    code of this message
+     * @return the created object
+     */
+    public static ServiceMessage of(final ServiceMessageType type, final String message, final String code) {
         final ServiceMessage data = new ServiceMessage();
         data.setType(type);
         data.setMessage(message);
+        data.setCode(code);
         return data;
     }
 
@@ -81,5 +99,23 @@ public class ServiceMessage {
      */
     public void setMessage(final String message) {
         this.message = message;
+    }
+
+    /**
+     * Code of this message. This value is optional.
+     *
+     * @return the code of this message
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * Sets the code of this message.
+     *
+     * @param code the code of this message
+     */
+    public void setCode(final String code) {
+        this.code = code;
     }
 }
