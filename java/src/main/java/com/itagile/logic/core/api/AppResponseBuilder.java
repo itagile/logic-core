@@ -17,16 +17,19 @@
 package com.itagile.logic.core.api;
 
 /**
- * A builder for creating an AppResponseData object.
+ * A builder for creating an AppResponse object.
  *
  * @author Javier Alcala
  * @since 1.0.0
  */
-public class AppResponseBuilder extends AppResponseClassBuilder<AppResponseData> {
+public class AppResponseBuilder extends AbstractAppResponseBuilder {
     /**
-     * Constructs a new {@code AppResponseBuilder} with appropriate supplier.
+     * Builds an instance and assigns final properties values.
+     *
+     * @return the new instance
      */
-    public AppResponseBuilder() {
-        super(AppResponseData::new);
+    public AppResponse build() {
+        return setProperties(new AppResponse());
     }
+
 }

@@ -46,6 +46,6 @@ class TextUtilsTest {
     @Test
     void formatLocale() {
         assertEquals("message December", TextUtils.format(Locale.ENGLISH, "message {0,Date,MMMM}",
-                        Date.valueOf(LocalDate.of(2020, 12, 1))));
+                Date.valueOf(LocalDate.of(2020, 12, 1))));
     }
 }

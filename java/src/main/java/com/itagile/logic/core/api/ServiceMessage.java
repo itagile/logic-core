@@ -17,23 +17,69 @@
 package com.itagile.logic.core.api;
 
 /**
- * Represents a single message from the service.
+ * A DTO representing a single message from the service.
  *
  * @author Javier Alcala
  * @since 1.0.0
  */
-public interface ServiceMessage {
+public class ServiceMessage {
+    /**
+     * Type of this message.
+     */
+    private ServiceMessageType type;
+
+    /**
+     * Text of this message.
+     */
+    private String message;
+
+    /**
+     * Static constructor using fields.
+     *
+     * @param type    type of this message
+     * @param message text of this message
+     * @return the created object
+     */
+    public static ServiceMessage of(final ServiceMessageType type, final String message) {
+        final ServiceMessage data = new ServiceMessage();
+        data.setType(type);
+        data.setMessage(message);
+        return data;
+    }
+
     /**
      * Type of this message.
      *
      * @return the type of this message
      */
-    ServiceMessageType getType();
+    public ServiceMessageType getType() {
+        return type;
+    }
+
+    /**
+     * Sets the type of this message.
+     *
+     * @param type the type of this message
+     */
+    public void setType(final ServiceMessageType type) {
+        this.type = type;
+    }
 
     /**
      * Text of this message.
      *
      * @return the text of this message
      */
-    String getMessage();
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Sets the text of this message.
+     *
+     * @param message the text of this message
+     */
+    public void setMessage(final String message) {
+        this.message = message;
+    }
 }
