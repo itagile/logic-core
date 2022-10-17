@@ -23,7 +23,7 @@ private boolean isValid(ExampleDTO dto, ResponseBuilder resp) {
 }
 
 public AppResponse save(ExampleDTO dto) {
-    var resp = new ResponseBuilder.of();
+    var resp = ResponseBuilder.of();
     if (isValid(dto, resp)) {
         // save logic
         resp.addInfo("Optional success message");
