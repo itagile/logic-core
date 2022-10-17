@@ -1,4 +1,0 @@
-No dependencies in Dependencies have newer versions.
-
-No dependencies in Plugin Dependencies have newer versions.
-
