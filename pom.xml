@@ -10,10 +10,32 @@
 
     <name>logic-core</name>
     <description>Generic structures, builders and models</description>
-    <url>https://github.com/itagile/logic-core/</url>
+    <url>https://github.com/itagile/logic-core</url>
 
     <inceptionYear>2020</inceptionYear>
 
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Javier Alcala</name>
+			<email>jalcala@itagile.com</email>
+			<organization>IT Agile</organization>
+			<organizationUrl>https://www.itagile.com</organizationUrl>
+		</developer>
+	</developers>
+	
+	<scm>
+		<connection>scm:git:git://github.com/itagile/logic-core.git</connection>
+		<developerConnection>scm:git:ssh://github.com:itagile/logic-core.git</developerConnection>
+		<url>https://github.com/itagile/logic-core/tree/main</url>
+	</scm>
+	
     <properties>
         <target.jdk>1.8</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
