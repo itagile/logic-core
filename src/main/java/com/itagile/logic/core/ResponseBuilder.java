@@ -85,7 +85,7 @@ public interface ResponseBuilder {
 
     /**
      * Appends an error message and changes the ok state to false.
-     * The message is formatted using {@link String#format(String, Object...) String.format}.
+     * The message is formatted using {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}.
      *
      * @param message the error message to append
      * @param args    arguments referenced by the format specifiers in the format string
@@ -101,7 +101,7 @@ public interface ResponseBuilder {
 
     /**
      * Appends a warning message.
-     * The message is formatted using {@link String#format(String, Object...) String.format}.
+     * The message is formatted using {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}.
      *
      * @param message the error message to append
      * @param args    arguments referenced by the format specifiers in the format string
@@ -117,7 +117,7 @@ public interface ResponseBuilder {
 
     /**
      * Appends an informative message.
-     * The message is formatted using {@link String#format(String, Object...) String.format}.
+     * The message is formatted using {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}.
      *
      * @param message the error message to append
      * @param args    arguments referenced by the format specifiers in the format string
