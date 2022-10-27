@@ -80,8 +80,9 @@ public interface ResponseBuilder {
      * Appends an error message and changes the ok state to false.
      *
      * @param message the error message to append
+     * @return this object
      */
-    void addError(String message);
+    ResponseBuilder addError(String message);
 
     /**
      * Appends an error message and changes the ok state to false.
@@ -89,15 +90,17 @@ public interface ResponseBuilder {
      *
      * @param message the error message to append
      * @param args    arguments referenced by the format specifiers in the format string
+     * @return this object
      */
-    void addError(String message, Object... args);
+    ResponseBuilder addError(String message, Object... args);
 
     /**
      * Appends a warning message.
      *
      * @param message the error message to append
+     * @return this object
      */
-    void addWarning(String message);
+    ResponseBuilder addWarning(String message);
 
     /**
      * Appends a warning message.
@@ -105,15 +108,17 @@ public interface ResponseBuilder {
      *
      * @param message the error message to append
      * @param args    arguments referenced by the format specifiers in the format string
+     * @return this object
      */
-    void addWarning(String message, Object... args);
+    ResponseBuilder addWarning(String message, Object... args);
 
     /**
      * Appends an informative message.
      *
      * @param message the error message to append
+     * @return this object
      */
-    void addInfo(String message);
+    ResponseBuilder addInfo(String message);
 
     /**
      * Appends an informative message.
@@ -121,20 +126,23 @@ public interface ResponseBuilder {
      *
      * @param message the error message to append
      * @param args    arguments referenced by the format specifiers in the format string
+     * @return this object
      */
-    void addInfo(String message, Object... args);
+    ResponseBuilder addInfo(String message, Object... args);
 
     /**
      * Appends all messages from response object.
      *
      * @param response the service response to append
+     * @return this object
      */
-    void addAll(AppResponse response);
+    ResponseBuilder addAll(AppResponse response);
 
     /**
      * Appends all messages from list.
      *
      * @param messages the list of messages
+     * @return this object
      */
-    void addAll(List<ServiceMessage> messages);
+    ResponseBuilder addAll(List<ServiceMessage> messages);
 }

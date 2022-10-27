@@ -6,7 +6,7 @@
 
     <groupId>com.itagile.logic</groupId>
     <artifactId>logic-core</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>logic-core</name>
     <description>Generic structures, builders and models</description>

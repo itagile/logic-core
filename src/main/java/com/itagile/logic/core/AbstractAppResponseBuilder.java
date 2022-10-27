@@ -80,8 +80,9 @@ public class AbstractAppResponseBuilder implements ResponseBuilder {
      * @param type    the type of this message
      * @param message the error message to append
      * @param args    arguments referenced by the format specifiers in the format string
+     * @return this object
      */
-    private void addMessage(final ServiceMessageType type, final String message,
+    private ResponseBuilder addMessage(final ServiceMessageType type, final String message,
                             final Object... args) {
         final ServiceMessage dto;
         if (messageProvider == null) {
@@ -97,46 +98,48 @@ public class AbstractAppResponseBuilder implements ResponseBuilder {
         if (dto.getType() == ServiceMessageType.ERROR) {
             ok = false;
         }
+        return this;
     }
 
     @Override
-    public final void addError(final String message) {
-        addMessage(ServiceMessageType.ERROR, message);
+    public final ResponseBuilder addError(final String message) {
+        return addMessage(ServiceMessageType.ERROR, message);
     }
 
     @Override
-    public final void addError(final String message, final Object... args) {
-        addMessage(ServiceMessageType.ERROR, message, args);
+    public final ResponseBuilder addError(final String message, final Object... args) {
+    	return addMessage(ServiceMessageType.ERROR, message, args);
     }
 
     @Override
-    public final void addWarning(final String message) {
-        addMessage(ServiceMessageType.WARN, message);
+    public final ResponseBuilder addWarning(final String message) {
+    	return addMessage(ServiceMessageType.WARN, message);
     }
 
     @Override
-    public final void addWarning(final String message, final Object... args) {
-        addMessage(ServiceMessageType.WARN, message, args);
+    public final ResponseBuilder addWarning(final String message, final Object... args) {
+    	return addMessage(ServiceMessageType.WARN, message, args);
     }
 
     @Override
-    public final void addInfo(final String message) {
-        addMessage(ServiceMessageType.INFO, message);
+    public final ResponseBuilder addInfo(final String message) {
+    	return addMessage(ServiceMessageType.INFO, message);
     }
 
     @Override
-    public final void addInfo(final String message, final Object... args) {
-        addMessage(ServiceMessageType.INFO, message, args);
+    public final ResponseBuilder addInfo(final String message, final Object... args) {
+    	return addMessage(ServiceMessageType.INFO, message, args);
     }
 
     @Override
-    public final void addAll(final AppResponse response) {
-        addAll(response.getMessages());
+    public final ResponseBuilder addAll(final AppResponse response) {
+    	return addAll(response.getMessages());
     }
 
     @Override
-    public final void addAll(final List<ServiceMessage> messages) {
+    public final ResponseBuilder addAll(final List<ServiceMessage> messages) {
         messages.forEach(message -> addMessage(message.getType(), message.getMessage()));
+        return this;
     }
 
     /**

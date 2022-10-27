@@ -120,7 +120,8 @@ class AppResponseDataBuilderTest {
         bean1.addError(expected);
         AppResponse dto1 = bean1.build();
         AppResponseDataBuilder<AppResponse> bean2 = getBean();
-        bean2.addAll(dto1);
+        ResponseBuilder chain = bean2.addAll(dto1);
+        assertEquals(bean2, chain);
         AppResponse dto2 = bean2.build();
         assertEquals(dto1.isOk(), dto2.isOk());
         List<ServiceMessage> messages = dto2.getMessages();

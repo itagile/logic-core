@@ -53,9 +53,12 @@ class AppResponseBuilderTest {
                 ServiceMessage.of(ServiceMessageType.INFO, "Info 1")
         );
         AppResponseBuilder bean = new AppResponseBuilder();
-        bean.addError(expected.get(0).getMessage());
-        bean.addWarning(expected.get(1).getMessage());
-        bean.addInfo(expected.get(2).getMessage());
+        ResponseBuilder chainError = bean.addError(expected.get(0).getMessage());
+        assertEquals(bean, chainError);
+        ResponseBuilder chainWarn = bean.addWarning(expected.get(1).getMessage());
+        assertEquals(bean, chainWarn);
+        ResponseBuilder chainInfo = bean.addInfo(expected.get(2).getMessage());
+        assertEquals(bean, chainInfo);
         AppResponse actual = bean.build();
         assertFalse(actual.isOk());
         TestUtils.assertListEquals(expected, actual.getMessages());
