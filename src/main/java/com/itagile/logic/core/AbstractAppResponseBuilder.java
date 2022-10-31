@@ -21,8 +21,10 @@ import com.itagile.logic.api.ServiceMessage;
 import com.itagile.logic.api.ServiceMessageType;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Abstract base class for AppResponse builder implementations.
@@ -30,7 +32,7 @@ import java.util.List;
  * @author Javier Alcala
  * @since 1.0.0
  */
-public class AbstractAppResponseBuilder implements ResponseBuilder {
+public abstract class AbstractAppResponseBuilder implements ResponseBuilder {
     /**
      * Determines if this response was successful.
      */
@@ -63,6 +65,16 @@ public class AbstractAppResponseBuilder implements ResponseBuilder {
      */
     public final List<ServiceMessage> getMessages() {
         return Collections.unmodifiableList(messages);
+    }
+
+    /**
+     * Returns the String joining all the messages from this response.
+     *
+     * @param delimiter the delimiter to be used between each message
+     * @return the String joining all the messages
+     */
+    public String getMessages(final CharSequence delimiter) {
+        return messages.stream().map(ServiceMessage::getMessage).collect(Collectors.joining(delimiter));
     }
 
     /**
@@ -137,21 +149,9 @@ public class AbstractAppResponseBuilder implements ResponseBuilder {
     }
 
     @Override
-    public final ResponseBuilder addAll(final List<ServiceMessage> messages) {
+    public final ResponseBuilder addAll(final Collection<ServiceMessage> messages) {
         messages.forEach(message -> addMessage(message.getType(), message.getMessage()));
         return this;
     }
 
-    /**
-     * Assigns final properties values.
-     *
-     * @param dto AppResponse instance to assign values
-     * @param <T> the AppResponse implementation class
-     * @return the same dto instance
-     */
-    protected <T extends AppResponse> T setProperties(final T dto) {
-        dto.setOk(ok);
-        dto.setMessages(getMessages());
-        return dto;
-    }
 }

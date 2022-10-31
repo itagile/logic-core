@@ -105,13 +105,14 @@ public class AppResponseDataBuilder<T extends AppResponse> extends AbstractAppRe
             if (supplier == null) {
                 try {
                     data = clazz.newInstance();
-                } catch (IllegalAccessException | InstantiationException e) {
+                } catch (final IllegalAccessException | InstantiationException e) {
                     throw new IllegalStateException("Failed to instantiate " + clazz.getName(), e);
                 }
             } else {
                 data = supplier.get();
             }
         }
-        return setProperties(data);
+        data.setMessages(getMessages());
+        return data;
     }
 }

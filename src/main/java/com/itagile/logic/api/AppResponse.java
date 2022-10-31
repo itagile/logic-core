@@ -16,7 +16,11 @@
 
 package com.itagile.logic.api;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A DTO representing a standard application response with messages.
@@ -39,21 +43,29 @@ public class AppResponse {
     private List<ServiceMessage> messages;
 
     /**
+     * Empty constructor.
+     */
+    public AppResponse() {
+        this.messages = Collections.emptyList();
+        this.ok = true;
+    }
+
+    /**
+     * Constructor with messages.
+     *
+     * @param messages the list of messages for this response
+     */
+    public AppResponse(final Collection<ServiceMessage> messages) {
+        this.setMessages(messages);
+    }
+
+    /**
      * Determines if this response was successful.
      *
      * @return true if no errors where found.
      */
     public boolean isOk() {
         return ok;
-    }
-
-    /**
-     * Sets this indicator's if this response was successful.
-     *
-     * @param ok true if this response was successful
-     */
-    public void setOk(final boolean ok) {
-        this.ok = ok;
     }
 
     /**
@@ -66,11 +78,22 @@ public class AppResponse {
     }
 
     /**
+     * Returns the String joining all the messages from this response.
+     *
+     * @param delimiter the delimiter to be used between each message
+     * @return the String joining all the messages
+     */
+    public String getMessages(final CharSequence delimiter) {
+        return messages.stream().map(ServiceMessage::getMessage).collect(Collectors.joining(delimiter));
+    }
+
+    /**
      * Sets the list of messages for this response.
      *
-     * @param messages list of messages for this response
+     * @param messages the list of messages for this response
      */
-    public void setMessages(final List<ServiceMessage> messages) {
-        this.messages = messages;
+    public void setMessages(final Collection<ServiceMessage> messages) {
+        this.messages = Collections.unmodifiableList(new ArrayList<>(messages));
+        this.ok = messages.stream().noneMatch(x -> x.getType() == ServiceMessageType.ERROR);
     }
 }

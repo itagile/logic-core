@@ -1,4 +1,5 @@
 # IT Agile Logic Core
+
 Generic backend and frontend data structures for business logic
 
 # Introduction
@@ -47,7 +48,6 @@ This example generates an AppResponse like this when errors are present:
 
 or an AppResponse like this when no errors were found:
 
-
 ```json
 {
     "ok": true,
@@ -59,7 +59,8 @@ or an AppResponse like this when no errors were found:
 
 The AppResponse is a simple JSON serializable DTO for use in REST API responses.
 
-If more properties in response are needed is possible to inherit from AppResponse and use generic AppResponseClassBuilder to build this special type.
+If more properties in response are needed is possible to inherit from AppResponse and use generic
+AppResponseClassBuilder to build this special type.
 
 The example below shows a custom response adding an id to the response:
 
@@ -95,20 +96,29 @@ public AppResponse save(ExampleDTO dto) {
 
 ```
 
-Subsequent calls to build method will return the same instance. The aforementioned is to ease setting other properties of the response.
+Subsequent calls to build method will return the same instance. The aforementioned is to ease setting other properties
+of the response.
 
-MyCustomResponse::new is the recommended way to initialize the custom response builder, nevertheless, passing a class is supported too:
+MyCustomResponse::new is the recommended way to initialize the custom response builder, nevertheless, passing a class is
+supported too:
 
 ```java
     var resp = ResponseBuilder.of(MyCustomResponse.class);
 ```
 
-Finally, through the method withMessageProvider, it is possible to customize ServiceMessage properties, transforming message from code, and resolving and applying current locale.
+Finally, through the method withMessageProvider, it is possible to customize ServiceMessage properties, transforming
+message from code, and resolving and applying current locale.
 
 # Development
+
 ## Maven
-This project uses [Apache Maven](http://maven.apache.org/) as a build tool.  The convention for version numbers is major.minor.patch as stated by [SemVer 2.0](http://semver.org/). Under development code is marked with SNAPSHOT following maven standard.
+
+This project uses [Apache Maven](http://maven.apache.org/) as a build tool. The convention for version numbers is
+major.minor.patch as stated by [SemVer 2.0](http://semver.org/). Under development code is marked with SNAPSHOT
+following maven standard.
 
 ## Git branching
-Developed code adheres to the set of branching rules defined by [OneFlow - a Git branching model and workflow](http://endoflineblog.com/oneflow-a-git-branching-model-and-workflow)
+
+Developed code adheres to the set of branching rules defined
+by [OneFlow - a Git branching model and workflow](http://endoflineblog.com/oneflow-a-git-branching-model-and-workflow)
 

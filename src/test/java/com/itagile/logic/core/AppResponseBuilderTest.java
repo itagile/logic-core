@@ -39,63 +39,77 @@ class AppResponseBuilderTest {
 
     @Test
     void buildOk() {
-        AppResponseBuilder bean = new AppResponseBuilder();
-        AppResponse actual = bean.build();
+        final AppResponseBuilder bean = new AppResponseBuilder();
+        final AppResponse actual = bean.build();
         assertTrue(actual.isOk());
         assertThat(actual.getMessages(), is(empty()));
     }
 
     @Test
     void buildWithErrors() {
-        List<ServiceMessage> expected = Arrays.asList(
+        final List<ServiceMessage> expected = Arrays.asList(
                 ServiceMessage.of(ServiceMessageType.ERROR, "Error 1"),
                 ServiceMessage.of(ServiceMessageType.WARN, "Warning 1"),
                 ServiceMessage.of(ServiceMessageType.INFO, "Info 1")
         );
-        AppResponseBuilder bean = new AppResponseBuilder();
-        ResponseBuilder chainError = bean.addError(expected.get(0).getMessage());
+        final AppResponseBuilder bean = new AppResponseBuilder();
+        final ResponseBuilder chainError = bean.addError(expected.get(0).getMessage());
         assertEquals(bean, chainError);
-        ResponseBuilder chainWarn = bean.addWarning(expected.get(1).getMessage());
+        final ResponseBuilder chainWarn = bean.addWarning(expected.get(1).getMessage());
         assertEquals(bean, chainWarn);
-        ResponseBuilder chainInfo = bean.addInfo(expected.get(2).getMessage());
+        final ResponseBuilder chainInfo = bean.addInfo(expected.get(2).getMessage());
         assertEquals(bean, chainInfo);
-        AppResponse actual = bean.build();
+        final AppResponse actual = bean.build();
         assertFalse(actual.isOk());
         TestUtils.assertListEquals(expected, actual.getMessages());
     }
 
     @Test
+    void getMessages() {
+        final List<ServiceMessage> messages = Arrays.asList(
+                ServiceMessage.of(ServiceMessageType.ERROR, "Error 1"),
+                ServiceMessage.of(ServiceMessageType.WARN, "Warning 1"),
+                ServiceMessage.of(ServiceMessageType.INFO, "Info 1")
+        );
+        final AppResponseBuilder bean = new AppResponseBuilder();
+        bean.addAll(messages);
+        final String expected = "Error 1,Warning 1,Info 1";
+        final String actual = bean.getMessages(",");
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void withMessageProvider() {
         final String expected = "message";
-        AppResponseBuilder bean =
+        final AppResponseBuilder bean =
                 new AppResponseBuilder().withMessageProvider((type, message, args) -> ServiceMessage.of(type,
                         expected));
         bean.addError("other");
-        List<ServiceMessage> messages = bean.getMessages();
-        ServiceMessage message = messages.get(0);
+        final List<ServiceMessage> messages = bean.getMessages();
+        final ServiceMessage message = messages.get(0);
         assertEquals(expected, message.getMessage());
         assertEquals(ServiceMessageType.ERROR, message.getType());
     }
 
     @Test
     void testJsonSerializationOk() {
-        AppResponseBuilder bean = new AppResponseBuilder();
-        AppResponse expected = bean.build();
-        String json = TestUtils.toJson(expected);
-        AppResponse actual = TestUtils.fromJson(json, AppResponse.class);
+        final AppResponseBuilder bean = new AppResponseBuilder();
+        final AppResponse expected = bean.build();
+        final String json = TestUtils.toJson(expected);
+        final AppResponse actual = TestUtils.fromJson(json, AppResponse.class);
         assertEquals(expected.isOk(), actual.isOk());
         TestUtils.assertListEquals(expected.getMessages(), actual.getMessages());
     }
 
     @Test
     void testJsonSerializationWithMessages() {
-        AppResponseBuilder bean = new AppResponseBuilder();
+        final AppResponseBuilder bean = new AppResponseBuilder();
         bean.addError("Error 1");
         bean.addWarning("Warning 1");
         bean.addInfo("Info 1");
-        AppResponse expected = bean.build();
-        String json = TestUtils.toJson(expected);
-        AppResponse actual = TestUtils.fromJson(json, AppResponse.class);
+        final AppResponse expected = bean.build();
+        final String json = TestUtils.toJson(expected);
+        final AppResponse actual = TestUtils.fromJson(json, AppResponse.class);
         assertEquals(expected.isOk(), actual.isOk());
         TestUtils.assertListEquals(expected.getMessages(), actual.getMessages());
     }

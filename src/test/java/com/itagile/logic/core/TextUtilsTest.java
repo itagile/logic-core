@@ -32,7 +32,7 @@ class TextUtilsTest {
 
     @Test
     void formatNoArgs() {
-        String expected = "message";
+        final String expected = "message";
         assertEquals(expected, TextUtils.format(expected));
     }
 

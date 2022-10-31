@@ -57,7 +57,7 @@ public class TestUtils {
      * @param <T>   the type of the desired object
      * @return an object of type T from the string
      */
-    public static <T> T fromJson(String json, Class<T> clazz) {
+    public static <T> T fromJson(final String json, final Class<T> clazz) {
         final ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(json, clazz);

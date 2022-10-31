@@ -31,7 +31,7 @@ public class AppResponseBuilder extends AbstractAppResponseBuilder {
      * @return the new instance
      */
     public AppResponse build() {
-        return setProperties(new AppResponse());
+        return new AppResponse(getMessages());
     }
 
     /**

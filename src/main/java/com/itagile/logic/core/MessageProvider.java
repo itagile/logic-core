@@ -29,7 +29,7 @@ import com.itagile.logic.api.ServiceMessageType;
 public interface MessageProvider {
     /**
      * Creates a new instance of ServiceMessage. This type can be used to customize ServiceMessage properties like
-     * translating message from code to a the real text and resolving and applying current locale.
+     * translating message from code to real text and resolving and applying current locale.
      *
      * @param type    the type of this message
      * @param message the error message to append

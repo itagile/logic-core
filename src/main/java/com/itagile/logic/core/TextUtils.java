@@ -38,7 +38,7 @@ public final class TextUtils {
      * Creates a MessageFormat with the given pattern and uses it to format the given arguments.
      * <p>
      * This implementation uses {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}
-     * managing java.time classes.
+     * managing {@link java.time} classes.
      *
      * @param pattern the pattern string
      * @param args    arguments referenced by the format specifiers in the format string
@@ -53,7 +53,7 @@ public final class TextUtils {
      * Creates a MessageFormat with the given locale and pattern and uses it to format the given arguments.
      * <p>
      * This implementation uses {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}
-     * managing java.time classes.
+     * managing {@link java.time} classes.
      *
      * @param locale  the locale to use
      * @param pattern the error pattern to append

@@ -19,6 +19,7 @@ package com.itagile.logic.core;
 import com.itagile.logic.api.AppResponse;
 import com.itagile.logic.api.ServiceMessage;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -144,5 +145,6 @@ public interface ResponseBuilder {
      * @param messages the list of messages
      * @return this object
      */
-    ResponseBuilder addAll(List<ServiceMessage> messages);
+    ResponseBuilder addAll(Collection<ServiceMessage> messages);
+
 }
