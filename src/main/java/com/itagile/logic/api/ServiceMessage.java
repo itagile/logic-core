@@ -46,7 +46,7 @@ public class ServiceMessage {
      * @return the created object
      */
     public static ServiceMessage of(final ServiceMessageType type, final String message) {
-        return of(type, message, "");
+        return of(type, message, null);
     }
 
     /**
