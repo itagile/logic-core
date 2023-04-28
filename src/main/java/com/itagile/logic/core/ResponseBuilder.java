@@ -16,12 +16,12 @@
 
 package com.itagile.logic.core;
 
-import com.itagile.logic.api.AppResponse;
-import com.itagile.logic.api.ServiceMessage;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
+
+import com.itagile.logic.api.AppResponse;
+import com.itagile.logic.api.ServiceMessage;
 
 /**
  * Contract for AppResponse builder implementations.
@@ -44,7 +44,7 @@ public interface ResponseBuilder {
      * Static factory method with specific constructor to use.
      *
      * @param supplier the specific constructor to use
-     * @param <T>      the AppResponse implementation class
+     * @param <T> the AppResponse implementation class
      * @return the created object
      */
     static <T extends AppResponse> AppResponseDataBuilder<T> of(final Supplier<T> supplier) {
@@ -55,7 +55,7 @@ public interface ResponseBuilder {
      * Static factory method with class type.
      *
      * @param clazz the class type
-     * @param <T>   the AppResponse implementation class
+     * @param <T> the AppResponse implementation class
      * @return the created object
      */
     static <T extends AppResponse> AppResponseDataBuilder<T> of(final Class<T> clazz) {
@@ -70,8 +70,7 @@ public interface ResponseBuilder {
     boolean isOk();
 
     /**
-     * Returns the list of messages for this response.
-     * The list returned is immutable.
+     * Returns the list of messages for this response. The list returned is immutable.
      *
      * @return the list of messages
      */
@@ -86,11 +85,11 @@ public interface ResponseBuilder {
     ResponseBuilder addError(String message);
 
     /**
-     * Appends an error message and changes the ok state to false.
-     * The message is formatted using {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}.
+     * Appends an error message and changes the ok state to false. The message is formatted using
+     * {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}.
      *
      * @param message the error message to append
-     * @param args    arguments referenced by the format specifiers in the format string
+     * @param args arguments referenced by the format specifiers in the format string
      * @return this object
      */
     ResponseBuilder addError(String message, Object... args);
@@ -104,11 +103,11 @@ public interface ResponseBuilder {
     ResponseBuilder addWarning(String message);
 
     /**
-     * Appends a warning message.
-     * The message is formatted using {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}.
+     * Appends a warning message. The message is formatted using
+     * {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}.
      *
      * @param message the error message to append
-     * @param args    arguments referenced by the format specifiers in the format string
+     * @param args arguments referenced by the format specifiers in the format string
      * @return this object
      */
     ResponseBuilder addWarning(String message, Object... args);
@@ -122,11 +121,11 @@ public interface ResponseBuilder {
     ResponseBuilder addInfo(String message);
 
     /**
-     * Appends an informative message.
-     * The message is formatted using {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}.
+     * Appends an informative message. The message is formatted using
+     * {@link java.text.MessageFormat#format(String, Object...) MessageFormat.format}.
      *
      * @param message the error message to append
-     * @param args    arguments referenced by the format specifiers in the format string
+     * @param args arguments referenced by the format specifiers in the format string
      * @return this object
      */
     ResponseBuilder addInfo(String message, Object... args);
@@ -146,5 +145,20 @@ public interface ResponseBuilder {
      * @return this object
      */
     ResponseBuilder addAll(Collection<ServiceMessage> messages);
+
+    /**
+     * Sets code for last added message.
+     *
+     * @param code code to set
+     * @return this object
+     */
+    ResponseBuilder withCode(String code);
+
+    /**
+     * Determines if this response has a message with the code specified.
+     *
+     * @return true if has a message with the code specified
+     */
+    boolean hasCode(String code);
 
 }

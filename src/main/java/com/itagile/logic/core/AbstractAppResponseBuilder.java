@@ -16,15 +16,16 @@
 
 package com.itagile.logic.core;
 
-import com.itagile.logic.api.AppResponse;
-import com.itagile.logic.api.ServiceMessage;
-import com.itagile.logic.api.ServiceMessageType;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import com.itagile.logic.api.AppResponse;
+import com.itagile.logic.api.ServiceMessage;
+import com.itagile.logic.api.ServiceMessageType;
 
 /**
  * Abstract base class for AppResponse builder implementations.
@@ -53,16 +54,17 @@ public abstract class AbstractAppResponseBuilder implements ResponseBuilder {
      *
      * @return true if no errors where found.
      */
+    @Override
     public final boolean isOk() {
         return ok;
     }
 
     /**
-     * Returns the list of messages for this response. The list returned is
-     * immutable.
+     * Returns the list of messages for this response. The list returned is immutable.
      *
      * @return the list of messages
      */
+    @Override
     public final List<ServiceMessage> getMessages() {
         return Collections.unmodifiableList(messages);
     }
@@ -74,7 +76,8 @@ public abstract class AbstractAppResponseBuilder implements ResponseBuilder {
      * @return the String joining all the messages
      */
     public String getMessages(final CharSequence delimiter) {
-        return messages.stream().map(ServiceMessage::getMessage).collect(Collectors.joining(delimiter));
+        return messages.stream().map(ServiceMessage::getMessage)
+                .collect(Collectors.joining(delimiter));
     }
 
     /**
@@ -89,13 +92,13 @@ public abstract class AbstractAppResponseBuilder implements ResponseBuilder {
     /**
      * Appends a message and changes the ok state to false if the type is ERROR.
      *
-     * @param type    the type of this message
+     * @param type the type of this message
      * @param message the error message to append
-     * @param args    arguments referenced by the format specifiers in the format
-     *                string
+     * @param args arguments referenced by the format specifiers in the format string
      * @return this object
      */
-    private ResponseBuilder addMessage(final ServiceMessageType type, final String message, final Object... args) {
+    private ResponseBuilder addMessage(final ServiceMessageType type, final String message,
+            final Object... args) {
         final ServiceMessage dto;
         if (messageProvider == null) {
             if (args.length == 0) {
@@ -152,6 +155,20 @@ public abstract class AbstractAppResponseBuilder implements ResponseBuilder {
     public final ResponseBuilder addAll(final Collection<ServiceMessage> messages) {
         messages.forEach(message -> addMessage(message.getType(), message.getMessage()));
         return this;
+    }
+
+    @Override
+    public ResponseBuilder withCode(final String code) {
+        if (messages.size() > 0) {
+            final ServiceMessage message = messages.get(messages.size() - 1);
+            message.setCode(code);
+        }
+        return this;
+    }
+
+    @Override
+    public boolean hasCode(final String code) {
+        return messages.stream().anyMatch(x -> Objects.equals(x.getCode(), code));
     }
 
 }

@@ -16,18 +16,19 @@
 
 package com.itagile.logic.core;
 
-import com.itagile.logic.api.AppResponse;
-import com.itagile.logic.api.ServiceMessage;
-import com.itagile.logic.api.ServiceMessageType;
-import org.junit.jupiter.api.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import com.itagile.logic.api.AppResponse;
+import com.itagile.logic.api.ServiceMessage;
+import com.itagile.logic.api.ServiceMessageType;
 
 /**
  * AppResponseBuilder tests.
@@ -50,8 +51,7 @@ class AppResponseBuilderTest {
         final List<ServiceMessage> expected = Arrays.asList(
                 ServiceMessage.of(ServiceMessageType.ERROR, "Error 1"),
                 ServiceMessage.of(ServiceMessageType.WARN, "Warning 1"),
-                ServiceMessage.of(ServiceMessageType.INFO, "Info 1")
-        );
+                ServiceMessage.of(ServiceMessageType.INFO, "Info 1"));
         final AppResponseBuilder bean = new AppResponseBuilder();
         final ResponseBuilder chainError = bean.addError(expected.get(0).getMessage());
         assertEquals(bean, chainError);
@@ -65,12 +65,26 @@ class AppResponseBuilderTest {
     }
 
     @Test
+    void buildWithCode() {
+        final String code = "code";
+        final String message = "Error 1";
+        final List<ServiceMessage> expected = Arrays
+                .asList(ServiceMessage.of(ServiceMessageType.ERROR, message, code));
+        final AppResponseBuilder bean = new AppResponseBuilder();
+        bean.addError(message).withCode(code);
+        final AppResponse actual = bean.build();
+        assertFalse(actual.isOk());
+        TestUtils.assertListEquals(expected, actual.getMessages());
+        assertTrue(bean.hasCode(code));
+        assertFalse(bean.hasCode("other"));
+    }
+
+    @Test
     void getMessages() {
         final List<ServiceMessage> messages = Arrays.asList(
                 ServiceMessage.of(ServiceMessageType.ERROR, "Error 1"),
                 ServiceMessage.of(ServiceMessageType.WARN, "Warning 1"),
-                ServiceMessage.of(ServiceMessageType.INFO, "Info 1")
-        );
+                ServiceMessage.of(ServiceMessageType.INFO, "Info 1"));
         final AppResponseBuilder bean = new AppResponseBuilder();
         bean.addAll(messages);
         final String expected = "Error 1,Warning 1,Info 1";
@@ -81,9 +95,8 @@ class AppResponseBuilderTest {
     @Test
     void withMessageProvider() {
         final String expected = "message";
-        final AppResponseBuilder bean =
-                new AppResponseBuilder().withMessageProvider((type, message, args) -> ServiceMessage.of(type,
-                        expected));
+        final AppResponseBuilder bean = new AppResponseBuilder()
+                .withMessageProvider((type, message, args) -> ServiceMessage.of(type, expected));
         bean.addError("other");
         final List<ServiceMessage> messages = bean.getMessages();
         final ServiceMessage message = messages.get(0);
