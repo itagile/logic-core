@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import com.itagile.logic.api.AppResponse;
 import com.itagile.logic.api.ServiceMessage;
@@ -67,17 +66,6 @@ public abstract class AbstractAppResponseBuilder implements ResponseBuilder {
     @Override
     public final List<ServiceMessage> getMessages() {
         return Collections.unmodifiableList(messages);
-    }
-
-    /**
-     * Returns the String joining all the messages from this response.
-     *
-     * @param delimiter the delimiter to be used between each message
-     * @return the String joining all the messages
-     */
-    public String getMessages(final CharSequence delimiter) {
-        return messages.stream().map(ServiceMessage::getMessage)
-                .collect(Collectors.joining(delimiter));
     }
 
     /**

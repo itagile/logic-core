@@ -19,6 +19,7 @@ package com.itagile.logic.core;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import com.itagile.logic.api.AppResponse;
 import com.itagile.logic.api.ServiceMessage;
@@ -75,6 +76,17 @@ public interface ResponseBuilder {
      * @return the list of messages
      */
     List<ServiceMessage> getMessages();
+
+    /**
+     * Returns the String joining all the messages from this response.
+     *
+     * @param delimiter the delimiter to be used between each message
+     * @return the String joining all the messages
+     */
+    default String getMessages(final CharSequence delimiter) {
+        return getMessages().stream().map(ServiceMessage::getMessage)
+                .collect(Collectors.joining(delimiter));
+    }
 
     /**
      * Appends an error message and changes the ok state to false.
